@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul {
+				width: 800px;
+				height: 50px;
+				border: 1px solid #c0c0c0;
+				margin: 100px auto;
+				display: flex;
+				padding: 0;
+				cursor: pointer;
+			}
+			ul li {
+				list-style: none;
+				flex: 1;
+				height: 50px;
+				border-right: 1px dotted #c0c0c0;
+				line-height: 50px;
+				text-align: center;
+				position: relative;
+				
+			}
+			ul li ins {
+				width: 100px;
+				height: 50px;
+				position: absolute;
+				top: 50px;
+				z-index: -1;
+				display: none;
+			}
+		</style>
+		<script type="text/javascript" src="lib/jquery/jquery-3.1.1.js"></script>
+		<script>
+			$(function(){
+				$("ul li:last").css('border',0);
+				var arrColor=['red','orange','green','yellow','blue','lightblue','gray','pink']
+				//隐式迭代
+				$("ul li").append('<ins></ins>');
+				$('ul li ins').each(function(index,ele){
+					$(this).css('background',arrColor[index]);
+				});
+				
+				//鼠标移入移出事件
+				$('ul li').mouseenter(function(){
+					$(this).children('ins').css('display','block');
+					$(this).children('ins').stop().animate({top:0},200);
+					//get() 将jq节点改为dom节点、、、、
+					$('audio').get($(this).index()).load();
+					//播放音视频，要先load(加载)，再play(播放)。。。。
+					$('audio').get($(this).index()).play();
+				}).mouseleave(function(){
+					$(this).children('ins').stop().animate({top:50},200);
+					$(this).children('ins').css('display','none');
+				})
+				//键盘事件
+				var num=0;
+				$(window).keydown(function(event){		//事件对象
+					console.log(event.keyCode); 		//返回键盘的unicode 编码
+					if(event.keyCode>=49 && event.keyCode<=56){
+						num=event.keyCode-49;
+						$('ul li').eq(num).trigger('mouseenter');
+//						setTimeout(function(){
+//							$('ul li').eq(num).trigger('mouseleave');
+//						},300)
+						$(window).keyup(function(event){
+							$('ul li').eq(num).trigger('mouseleave');
+						});
+					}
+				});
+				
+			})
+		</script>
+	</head>
+	<body>
+		<ul>
+			<li>小可爱</li>
+			<li>小可爱</li>
+			<li>小可爱</li>
+			<li>小可爱</li>
+			<li>小可爱</li>
+			<li>小可爱</li>
+			<li>小可爱</li>
+			<li>小可爱</li>
+		</ul>
+		<audio src="music/1.ogg"></audio>
+		<audio src="music/2.ogg"></audio>
+		<audio src="music/3.ogg"></audio>
+		<audio src="music/4.ogg"></audio>
+		<audio src="music/5.ogg"></audio>
+		<audio src="music/6.ogg"></audio>
+		<audio src="music/7.ogg"></audio>
+		<audio src="music/8.ogg"></audio>
+		<audio src="music/9.ogg"></audio>
+	</body>
+</html>
